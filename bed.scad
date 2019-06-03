@@ -4,7 +4,7 @@ bh = 1300; // base height
 bhl = 1300; // base height Laura
 rh = 1800; // rail height
 ew = 400; // entrance width
-mid = 90; // mattress insert depth
+mid = 60; // mattress insert depth
 th = bh+500; // top height
 
 module room_floor() {
@@ -56,11 +56,24 @@ module mattress_sara() {
     cube([2000, 800, 120]);
 }
 
+module slats_sara() {
+    cube([2000, 800, 90]);
+}
+
+module slats_support(l) {
+    translate([0, -35, -28])
+    cube([l, 70, 28]);
+}
+
 module mattress_laura() {
     translate([0,-(350+150),0])
     cube([800, 1300+350+150, 120]);
 }
 
+module slats_laura() {
+    translate([0,-(350+150),0])
+    cube([800, 1300+350+150, 90]);
+}
 
 module bed() {
     translate([50, 50, 0]) {
@@ -75,6 +88,27 @@ module bed() {
 
             translate([0, 800, bhl]) {
                 mattress_laura();
+            }
+        }
+
+        color("brown") {
+            translate([0, 0, bh-90]) {
+                slats_sara();
+
+                for (x=[250, 500, 750, 1000, 1250, 1500, 1750])
+                translate([x, 0, 0])
+                rotate([0, 0, 90])
+                slats_support(800);
+            }
+
+            translate([0, 800, bhl-90]) {
+                slats_laura();
+
+                rotate([0, 0, 90])
+                for (x=[250, 500, 750, 1000, 1250])
+                translate([x, -800, 0])
+                rotate([0, 0, 90])
+                slats_support(800);
             }
         }
 
